@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  pgadmin:
+    image: dpage/pgadmin4
+    env_file:
+      - .env
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    restart: unless-stopped
+    links:
+      - "postgres:pgsql-server"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:14
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+  pgadmin_data:
